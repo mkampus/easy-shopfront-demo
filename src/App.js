@@ -17,6 +17,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function App() {
+    const [textValue, setTextValue] = useState("");
+    const [name, setName] = useState()
+    const [price,setPrice] = useState()
+    const [url,setURL] = useState()
+
 
     const [data, setData] = useState(
         [
@@ -38,17 +43,40 @@ function App() {
         ]
     )
 
+    const onTextPriceChange = (e) =>{
+        setPrice(e.target.value);
+        console.log(price)
+    }
+
+    const onTextNameChange = (e) => {
+        setName(e.target.value);
+        console.log(name)
+    }
+    function onTextURLChange(e) {
+        setURL(e.target.value)
+        console.log(url)
+
+    }
+
+    const handleReset = () => setTextValue("");
 
 
-    function uploadData() {
 
+
+    const uploadData = () => {
+        let arr = [...data]
+        arr.push({image: url, price: price, name: name })
+        setData(arr)
+        console.log(data)
     }
 
     const deleteProduct = (name) => {
-        console.log(name)
+        // console.log(name)
         console.log(data.findIndex((data) => data.name === name));
         setData(data.filter((data) => data.name !== name));
     }
+
+
 
     return (
         <div className="App">
@@ -66,17 +94,6 @@ function App() {
                                 paragraph>Add your product below.</Typography>
 
 
-                    <Button
-                        variant="outlined"
-                        component="label"
-                    >
-                        Upload Product Image
-                        <input
-                            type="file"
-                            hidden
-                        />
-                    </Button>
-
                     <Box
                         component="form"
                         sx={{
@@ -85,8 +102,9 @@ function App() {
                         noValidate
                         autoComplete="off"
                     >
-                        <TextField id="outlined-basic" label="Product Name" variant="outlined"/>
-                        <TextField id="outlined-basic2" label="Product Price" variant="outlined"/>
+                        <TextField id="outlined-basic1" onChange={onTextURLChange} label="Image URL" variant="outlined"/>
+                        <TextField id="outlined-basic2" onChange={onTextNameChange} label="Product Name" variant="outlined"/>
+                        <TextField id="outlined-basic3" onChange={onTextPriceChange}  label="Product Price" variant="outlined"/>
                     </Box>
 
                     <Button
