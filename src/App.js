@@ -7,42 +7,47 @@ import {
     CardContent,
     CardMedia,
     Container,
-    Grid,
+    Grid, IconButton,
     Link,
     TextField,
     Typography
 } from "@mui/material";
 import {useState} from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function App() {
 
     const [data, setData] = useState(
         [
             {
-                name: 'first title',
-                price: 'first news date',
+                name: 'Rad Shirt 1',
+                price: '100',
                 image: 'https://static.zajo.net/content/mediagallery/zajo_dcat/image/product/types/X/9088.png'
             },
             {
-                name: 'second title',
-                price: 'second news date',
+                name: 'Kickin` cloth 2',
+                price: '50',
                 image: 'https://static.zajo.net/content/mediagallery/zajo_dcat/image/product/types/X/9088.png'
             },
             {
-                name: 'third title',
-                price: 'third news date',
+                name: 'Bodacious fabric 3',
+                price: '40',
                 image: 'https://static.zajo.net/content/mediagallery/zajo_dcat/image/product/types/X/9088.png'
             }
         ]
     )
 
 
-    function handleClickOpen() {
+
+    function uploadData() {
 
     }
 
-    function handleClose() {
-
+    const deleteProduct = (name) => {
+        console.log(name)
+        console.log(data.findIndex((data) => data.name === name));
+        setData(data.filter((data) => data.name !== name));
     }
 
     return (
@@ -60,6 +65,7 @@ function App() {
                                 align="center"
                                 paragraph>Add your product below.</Typography>
 
+
                     <Button
                         variant="outlined"
                         component="label"
@@ -70,6 +76,7 @@ function App() {
                             hidden
                         />
                     </Button>
+
                     <Box
                         component="form"
                         sx={{
@@ -82,10 +89,23 @@ function App() {
                         <TextField id="outlined-basic2" label="Product Price" variant="outlined"/>
                     </Box>
 
+                    <Button
+                        variant="contained"
+                        component="label"
+                    >
+                        Upload Product
+                        <input onClick={uploadData}
+                            type="button"
+                            hidden
+                        />
+                    </Button>
+
+
+
                     <Grid container spacing={1}>
 
                         {data.map((product, index) => (
-                            <Grid item xs={12} sm={3} key={index}>
+                            <Grid item xs={12} sm={3} key={index} label={product.name}>
                                 <Card sx={{
                                     display: 'block',
                                     width: '345',
@@ -96,11 +116,13 @@ function App() {
                                     "&:hover": {transform: "scale3d(1.02, 1.02, 1)"},
                                     transformStyle: 'preserve-3d',
                                 }}>
-                                    <CardActionArea onClick={() => {
+                                    <div align='right'>
+                                        <IconButton aria-label="delete" size="small" onClick={() => deleteProduct(product.name)}>
+                                            <DeleteIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </div>
 
-                                        handleClickOpen()
-
-                                    }}>
+                                    <CardActionArea >
                                         <CardMedia sx={{height: 375, maxWidth: 345,}}
                                                                           image={product.image}/>
 
@@ -110,17 +132,13 @@ function App() {
 
                                         <Typography color="primary" variant="h5"
                                         >
-                                            <Link href="#" underline="none" onClick={() => {
-
-                                                handleClickOpen()
-
-                                            }}> {product.title}  </Link>
-
+                                            <Link href="#" underline="none"> {product.name}  </Link>
                                         </Typography>
-
-
-
-
+                                        <Typography color="primary" variant="h5"
+                                        >
+                                            <Link href="#" underline="none"> {product.price}  </Link>
+                                        </Typography>
+                                        <Button variant='contained'>Add to Cart</Button>
                                     </CardContent>
                                 </Card>
                             </Grid>
